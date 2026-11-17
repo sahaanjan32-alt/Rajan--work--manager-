@@ -26,7 +26,11 @@ jobs:
           gradle-version: '8.9'
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+  run: |
+    SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | head -n 1)
+    yes | "$SDKMANAGER" --licenses || true
+    "$SDKMANAGER" --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
 
       - name: Extract Android Project
         run: |
